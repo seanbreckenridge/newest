@@ -39,12 +39,12 @@ I use this in a lot of small scripts/aliases bound to key bindings:
 
 To move the last file from my Downloads folder to my current directory:
 
-`mv -v "$(newest "${HOME}/Downloads/")" './'`
+`mv -v "$(newest "${HOME}/Downloads")" './'`
 
 To preview my latest screenshot:
 
-`sxiv -a "$(newest ~/Pictures/Screenshots/)"`
+`sxiv -a "$(newest "${HOME}/Pictures/Screenshots")"`
 
 To grab my most recent screenshot, and upload it to imgur:
 
-`imgur-uploader "$(newest ~/Pictures/Screenshots/)"`
+`imgur-uploader "$(newest "${HOME}/Pictures/Screenshots")"`
