@@ -13,7 +13,7 @@ import (
 // helper to print an error and exit, if an error was received
 func handleErr(err error) {
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "%s\n", err.Error())
+		fmt.Fprintln(os.Stderr, err.Error())
 		os.Exit(1)
 	}
 }
@@ -25,15 +25,14 @@ type NewestConfig struct {
 
 func parseFlags() (*NewestConfig, error) {
 	flag.Usage = func() {
-		fmt.Fprintf(os.Stderr, `usage: newest [-include-dirs] [dir]
+		fmt.Fprintln(os.Stderr, `usage: newest [-include-dirs] [dir]
 
 Prints the newest file in a directory
 
 If a positional argument is not provided, prints the newest file in this directory
 If the current directory could not be determined, this fails
 
-Optional arguments:
-`)
+Optional arguments:`)
 		flag.PrintDefaults()
 	}
 	includeDirs := flag.Bool("include-dirs", false, "Include directories in addition to files")
