@@ -1,6 +1,6 @@
 ### newest
 
-Basic tool to print the most recent file in a directory:
+Basic CLI tool to print the most recent file in a directory:
 
 ```
 usage: newest [-include-dirs] [dir]
@@ -31,7 +31,7 @@ go install .
 
 ---
 
-I use this in a lot of small scripts/aliases bound to keybindings:
+I use this in a lot of small scripts/aliases bound to key bindings:
 
 To move the last file from my Downloads folder to my current directory: `mv -v "$(newest "${HOME}/Downloads/")" './'`
 
