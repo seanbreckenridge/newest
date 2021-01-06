@@ -11,7 +11,7 @@ import (
 )
 
 // helper to print an error and exit, if an error was received
-func errExit(err error) {
+func handleErr(err error) {
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "%s\n", err.Error())
 		os.Exit(1)
@@ -92,8 +92,8 @@ func newestPath(inDir string, includeDirs bool) (os.FileInfo, error) {
 
 func main() {
 	conf, err := parseFlags()
-	errExit(err)
+	handleErr(err)
 	newest, err := newestPath(conf.dir, conf.includeDirs)
-	errExit(err)
+	handleErr(err)
 	fmt.Println(path.Join(conf.dir, newest.Name()))
 }
