@@ -19,14 +19,18 @@ Optional arguments:
 
 To install:
 
+Using `go get` to put it on your `$GOBIN`:
+
 `go get github.com/seanbreckenridge/newest`
 
-... or:
+Manually:
 
-```
+```bash
 git clone https://github.com/seanbreckenridge/newest
 cd ./newest
-go install .
+go build .
+# copy binary somewhere on your $PATH
+sudo cp ./newest /usr/local/bin
 ```
 
 ---
