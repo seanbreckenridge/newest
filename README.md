@@ -33,8 +33,14 @@ go install .
 
 I use this in a lot of small scripts/aliases bound to key bindings:
 
-To move the last file from my Downloads folder to my current directory: `mv -v "$(newest "${HOME}/Downloads/")" './'`
+To move the last file from my Downloads folder to my current directory:
 
-To preview my latest screenshot: `sxiv -a "$(newest ~/Pictures/Screenshots/)"`
+`mv -v "$(newest "${HOME}/Downloads/")" './'`
 
-To grab my most recent screenshot, and upload it to imgur: `imgur-uploader "$(newest ~/Pictures/Screenshots/)"`
+To preview my latest screenshot:
+
+`sxiv -a "$(newest ~/Pictures/Screenshots/)"`
+
+To grab my most recent screenshot, and upload it to imgur:
+
+`imgur-uploader "$(newest ~/Pictures/Screenshots/)"`
