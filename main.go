@@ -66,7 +66,7 @@ func newestPath(inDir string, includeDirs bool) (os.FileInfo, error) {
 	var recentTime time.Time
 	for _, fi := range files {
 		// if this is a directory and we're meant to ignore directories
-		if fi.Mode().IsDir() && !includeDirs {
+		if !includeDirs && fi.Mode().IsDir() {
 			continue
 		}
 		// if we haven't found any files that have matched yet
