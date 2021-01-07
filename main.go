@@ -10,14 +10,6 @@ import (
 	"time"
 )
 
-// helper to print an error and exit, if an error was received
-func handleErr(err error) {
-	if err != nil {
-		fmt.Fprintln(os.Stderr, err.Error())
-		os.Exit(1)
-	}
-}
-
 type NewestConfig struct {
 	includeDirs bool
 	dir         string
@@ -89,10 +81,24 @@ func newestPath(inDir string, includeDirs bool) (os.FileInfo, error) {
 	}
 }
 
-func main() {
+// wrapper for 'main' code, to return single err main
+func newest() (string, error) {
 	conf, err := parseFlags()
-	handleErr(err)
+	if err != nil {
+		return "", err
+	}
 	newest, err := newestPath(conf.dir, conf.includeDirs)
-	handleErr(err)
-	fmt.Println(path.Join(conf.dir, newest.Name()))
+	if err != nil {
+		return "", err
+	}
+	return path.Join(conf.dir, newest.Name()), nil
+}
+
+func main() {
+	result, err := newest()
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err.Error())
+		os.Exit(1)
+	}
+	fmt.Println(result)
 }
