@@ -81,7 +81,7 @@ func newestPath(inDir string, includeDirs bool) (os.FileInfo, error) {
 	}
 }
 
-// wrapper for 'main' code, to return single err main
+// wrapper for 'main' code, to return single err to main
 func newest() (string, error) {
 	conf, err := parseFlags()
 	if err != nil {
