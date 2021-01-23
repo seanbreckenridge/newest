@@ -1,6 +1,6 @@
 ### newest
 
-Basic CLI tool to print the most recent file in a directory:
+Basic CLI tool to print the most recently modified file in a directory:
 
 ```
 usage: newest [-include-dirs] [dir]
