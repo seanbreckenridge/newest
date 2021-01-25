@@ -3,7 +3,7 @@
 Basic CLI tool to print the most recently modified file in a directory:
 
 ```
-usage: newest [-include-dirs] [dir]
+usage: newest [OPTIONS] [DIR]
 
 Prints the newest file in a directory
 
@@ -11,6 +11,8 @@ If a positional argument is not provided, prints the newest file in this directo
 If the current directory could not be determined, this fails
 
 Optional arguments:
+  -ignore-hidden
+    	Ignore hidden files
   -include-dirs
     	Include directories in addition to files
 ```

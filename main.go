@@ -7,17 +7,19 @@ import (
 	"io/ioutil"
 	"os"
 	"path"
+	"runtime"
 	"time"
 )
 
 type NewestConfig struct {
-	includeDirs bool
-	dir         string
+	includeDirs  bool
+	ignoreHidden bool
+	dir          string
 }
 
 func parseFlags() (*NewestConfig, error) {
 	flag.Usage = func() {
-		fmt.Fprintln(os.Stderr, `usage: newest [-include-dirs] [dir]
+		fmt.Fprintln(os.Stderr, `usage: newest [OPTIONS] [DIR]
 
 Prints the newest file in a directory
 
@@ -28,6 +30,7 @@ Optional arguments:`)
 		flag.PrintDefaults()
 	}
 	includeDirs := flag.Bool("include-dirs", false, "Include directories in addition to files")
+	ignoreHidden := flag.Bool("ignore-hidden", false, "Ignore hidden files")
 	flag.Parse()
 	var dir string
 	switch flag.NArg() {
@@ -42,14 +45,18 @@ Optional arguments:`)
 	default:
 		return nil, errors.New("Provided too many positional arguments")
 	}
+	if *ignoreHidden && runtime.GOOS == "windows" {
+		return nil, errors.New("Not able to check if files are hidden on windows")
+	}
 	return &NewestConfig{
-		includeDirs: *includeDirs,
-		dir:         dir,
+		includeDirs:  *includeDirs,
+		ignoreHidden: *ignoreHidden,
+		dir:          dir,
 	}, nil
 }
 
-func newestPath(inDir string, includeDirs bool) (os.FileInfo, error) {
-	files, err := ioutil.ReadDir(inDir)
+func newestPath(conf *NewestConfig) (os.FileInfo, error) {
+	files, err := ioutil.ReadDir(conf.dir)
 	if err != nil {
 		return nil, err
 	}
@@ -57,7 +64,11 @@ func newestPath(inDir string, includeDirs bool) (os.FileInfo, error) {
 	var recentTime time.Time
 	for _, fi := range files {
 		// if this is a directory and we're meant to ignore directories
-		if !includeDirs && fi.Mode().IsDir() {
+		if !conf.includeDirs && fi.Mode().IsDir() {
+			continue
+		}
+		// if this is a hidden file and we're meant to ignore hidden files
+		if conf.ignoreHidden && fi.Name()[0:1] == "." {
 			continue
 		}
 		// if we haven't found any files that have matched yet
@@ -75,7 +86,7 @@ func newestPath(inDir string, includeDirs bool) (os.FileInfo, error) {
 	}
 	// didn't find any files with this pattern (i.e. -include-dirs)
 	if recent == nil {
-		return nil, fmt.Errorf("Could not find any matching files in %s", inDir)
+		return nil, fmt.Errorf("Could not find any matching files in %s", conf.dir)
 	} else {
 		return recent, nil
 	}
@@ -87,7 +98,7 @@ func newest() (string, error) {
 	if err != nil {
 		return "", err
 	}
-	newest, err := newestPath(conf.dir, conf.includeDirs)
+	newest, err := newestPath(conf)
 	if err != nil {
 		return "", err
 	}
