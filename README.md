@@ -1,4 +1,4 @@
-### newest
+## newest
 
 Basic CLI tool to print the most recently modified file in a directory:
 
@@ -17,9 +17,7 @@ Optional arguments:
     	Include directories in addition to files
 ```
 
----
-
-To install:
+### Install
 
 Using `go get` to put it on your `$GOBIN`:
 
@@ -35,7 +33,7 @@ go build .
 sudo cp ./newest /usr/local/bin
 ```
 
----
+### Examples
 
 I use this in a lot of small scripts/aliases bound to key bindings:
 
