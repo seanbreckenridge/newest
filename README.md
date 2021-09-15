@@ -19,9 +19,9 @@ Optional arguments:
 
 ### Install
 
-Using `go get` to put it on your `$GOBIN`:
+Using `go install` to put it on your `$GOBIN`:
 
-`go get github.com/seanbreckenridge/newest`
+`go install github.com/seanbreckenridge/newest@latest`
 
 Manually:
 
