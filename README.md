@@ -43,8 +43,15 @@ To move the last file from my Downloads folder to my current directory:
 
 To preview my latest screenshot:
 
-`sxiv -a "$(newest "${HOME}/Pictures/Screenshots")"`
+`nsxiv -a "$(newest "${HOME}/Pictures/Screenshots")"`
 
 To grab my most recent screenshot, and upload it to imgur:
 
 `imgur-uploader "$(newest "${HOME}/Pictures/Screenshots")"`
+
+Also commonly use it to check some output file from a command that just run in this directory:
+
+- `cat "$(newest)"`
+- `jq <$(newest)`
+- `wc -l <$(newest)`
+- `tail -f $(newest)`
