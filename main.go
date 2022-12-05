@@ -43,10 +43,10 @@ Optional arguments:`)
 	case 1:
 		dir = flag.Arg(0)
 	default:
-		return nil, errors.New("Provided too many positional arguments")
+		return nil, errors.New("newest: Provided too many positional arguments")
 	}
 	if *ignoreHidden && runtime.GOOS == "windows" {
-		return nil, errors.New("Not able to check if files are hidden on windows")
+		return nil, errors.New("newest: Not able to check if files are hidden on windows")
 	}
 	return &NewestConfig{
 		includeDirs:  *includeDirs,
@@ -86,7 +86,7 @@ func newestPath(conf *NewestConfig) (os.FileInfo, error) {
 	}
 	// didn't find any files with this pattern (i.e. -include-dirs)
 	if recent == nil {
-		return nil, fmt.Errorf("Could not find any matching files in %s", conf.dir)
+		return nil, fmt.Errorf("newest: Could not find any matching files in %s", conf.dir)
 	} else {
 		return recent, nil
 	}
