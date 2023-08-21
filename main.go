@@ -4,7 +4,6 @@ import (
 	"errors"
 	"flag"
 	"fmt"
-	"io/ioutil"
 	"os"
 	"path"
 	"runtime"
@@ -55,16 +54,16 @@ Optional arguments:`)
 	}, nil
 }
 
-func newestPath(conf *NewestConfig) (os.FileInfo, error) {
-	files, err := ioutil.ReadDir(conf.dir)
+func newestPath(conf *NewestConfig) (os.DirEntry, error) {
+	files, err := os.ReadDir(conf.dir)
 	if err != nil {
 		return nil, err
 	}
-	var recent os.FileInfo
+	var recent os.DirEntry
 	var recentTime time.Time
 	for _, fi := range files {
 		// if this is a directory and we're meant to ignore directories
-		if !conf.includeDirs && fi.Mode().IsDir() {
+		if !conf.includeDirs && fi.IsDir() {
 			continue
 		}
 		// if this is a hidden file and we're meant to ignore hidden files
@@ -74,11 +73,19 @@ func newestPath(conf *NewestConfig) (os.FileInfo, error) {
 		// if we haven't found any files that have matched yet
 		if recent == nil {
 			recent = fi
-			recentTime = fi.ModTime()
+			info, err := fi.Info()
+			if err != nil {
+				return nil, err
+			}
+			recentTime = info.ModTime()
 			continue
 		}
 		// if the most recent time was before this files
-		fiTime := fi.ModTime()
+		fiInfo, err := fi.Info()
+		if err != nil {
+			return nil, err
+		}
+		fiTime := fiInfo.ModTime()
 		if recentTime.Before(fiTime) {
 			recent = fi
 			recentTime = fiTime
